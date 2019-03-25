@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (Html.BeginForm())
+{
+
+    <div style="border: 1px solid blue;  background-color:lightcyan">
+
+        <div class="form-group" style=" margin:30px; width:100%">
+
+            <input type="text" class="form-control input-lg col-lg-offset-4" onkeydown="setTimer()" id="value" name="value">
+
+        </div>
+
+    </div>
+
+    
+    <h3 id="header" style="margin:25px;"> Translated Text:  <label id="label">  </label> </h3>
+   
+   
+
+    <div class="form-group" style="margin-top:200px;">
+        <div class="col-md-offset-11 col-md-1">
+            <input type="submit" value="Ok - continue " class="btn btn-warning" />
+           
+        </div>
+    </div>
+}
+
+
+<script>
+
+    var timer = 3;
+    setInterval(myTimer, 1000);
+    var dok = document.getElementById("label");
+    function myTimer() {
+
+        var text = document.getElementById("value").value;
+        timer = timer - 1;
+        if (timer == 0) {
+
+            $.ajax({
+                url: '/Translator/AjaxCall',
+                type: 'POST',
+                dataType: 'json',
+                data: { order: text, },
+                success: function (data) {
+                    dok.innerHTML = data;
+                  
+                    setTimer();
+                }, error: function (data) {
+                    dok.innerHTML = "error occurred";
+                    setTimer();
+                }
+
+            });
+        }
+    }
+
+    function setTimer() {
+        timer = 3;
+    }
+
+    
+
+    //In here I tried to initialize a timer with value 3
+    //The idea was that input file (with id = "value") has onkeydown event and after every change timer resets  value to 3 - calls setTimer function
+    //Also there is myTimer function which will decrease timer value every second
+    //If timer == 0 then I wanted to redirect to controller with current value in field. But i didn't succeed.
+
+
+</script>
+
+
+
