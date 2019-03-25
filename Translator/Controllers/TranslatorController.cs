@@ -22,7 +22,7 @@ namespace Translator.Controllers
         [HttpPost]
         public JsonResult AjaxCall(string order)
         {
-            obj = service.TranslateWord(order);
+            obj = service.TranslateWord(order); // it is invoked if user doesn't enter any value for 3 seconds. It returns json value.
             return Json(obj.toText);
         }
 
